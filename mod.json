@@ -1,0 +1,76 @@
+{
+    "geode": "5.3.0",
+    "gd": {
+        "win": "2.2081",
+        "android": "2.2081",
+        "mac": "2.2081",
+        "ios": "2.2081"
+    },
+    "id": "hiimjasmine00.checkpoint-switcher",
+    "name": "Checkpoint Switcher",
+    "version": "v1.0.0",
+    "developer": "hiimjasmine00",
+    "description": "Switch checkpoints without changing them.",
+    "settings": {
+        "enabled": {
+            "name": "Enabled",
+            "description": "Whether the mod is enabled.",
+            "type": "bool",
+            "default": true
+        },
+        "hide-menu": {
+            "name": "Hide Menu",
+            "description": "Whether to hide the checkpoint switcher menu.",
+            "enable-if": "enabled",
+            "platforms": ["win", "mac"],
+            "type": "bool",
+            "default": false
+        },
+        "menu-opacity": {
+            "name": "Menu Opacity",
+            "description": "The opacity of the checkpoint switcher menu.",
+            "enable-if": "enabled",
+            "type": "int",
+            "default": 127,
+            "min": 0,
+            "max": 255
+        },
+        "menu-y-offset": {
+            "name": "Menu Y Offset",
+            "description": "The Y offset (from the bottom of the screen) of the checkpoint switcher menu.",
+            "enable-if": "enabled",
+            "type": "float",
+            "default": 40,
+            "min": 0,
+            "max": 320
+        },
+        "previous-checkpoint": {
+            "name": "Previous Checkpoint",
+            "description": "Switch to the previous checkpoint.",
+            "enable-if": "enabled",
+            "category": "gameplay",
+            "type": "keybind",
+            "default": "Shift+Q"
+        },
+        "next-checkpoint": {
+            "name": "Next Checkpoint",
+            "description": "Switch to the next checkpoint.",
+            "enable-if": "enabled",
+            "category": "gameplay",
+            "type": "keybind",
+            "default": "Shift+E"
+        }
+    },
+    "links": {
+        "community": "https://discord.gg/QVKmbvBXA7",
+        "source": "https://github.com/hiimjasmine00/CheckpointSwitcher",
+        "homepage": "https://www.hiimjasmine00.com"
+    },
+    "tags": [
+        "enhancement",
+        "interface",
+        "gameplay",
+        "offline",
+        "utility"
+    ]
+}
