@@ -18,8 +18,11 @@ void CSPlayLayer::loadFromCheckpoint(CheckpointObject* object) {
     if (currentCheckpoint) return PlayLayer::loadFromCheckpoint(currentCheckpoint);
 
     startMusic();
-    if (m_startPosObject && m_currentCheckpoint) PlayLayer::loadFromCheckpoint(m_currentCheckpoint);
+    if (m_startPosObject && m_currentCheckpoint) {
+        PlayLayer::loadFromCheckpoint(m_currentCheckpoint);
+    }
     else {
+        // For the Blending Glow mod by NinKaz
         m_player1->updatePlayerArt();
         if (m_gameState.m_isDualMode) m_player2->updatePlayerArt();
     }

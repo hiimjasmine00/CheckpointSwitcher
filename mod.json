@@ -8,7 +8,7 @@
     },
     "id": "hiimjasmine00.checkpoint-switcher",
     "name": "Checkpoint Switcher",
-    "version": "v1.0.0",
+    "version": "v1.0.1",
     "developer": "hiimjasmine00",
     "description": "Switch checkpoints without changing them.",
     "settings": {
@@ -40,7 +40,12 @@
             "description": "The Y offset (from the bottom of the screen) of the checkpoint switcher menu.",
             "enable-if": "enabled",
             "type": "float",
-            "default": 40,
+            "default": {
+                "win": 20,
+                "android": 80,
+                "mac": 20,
+                "ios": 80
+            },
             "min": 0,
             "max": 320
         },

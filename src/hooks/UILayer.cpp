@@ -15,12 +15,11 @@ bool CSUILayer::init(GJBaseGameLayer* layer) {
     auto playLayer = typeinfo_cast<PlayLayer*>(layer);
     if (!playLayer) return true;
 
-    auto winSize = CCDirector::get()->getWinSize();
     auto f = m_fields.self();
 
     f->m_switchMenu = CCMenu::create();
-    f->m_switchMenu->setPosition({ winSize.width / 2.0f, jasmine::setting::getValue<float>("menu-y-offset") });
-    f->m_switchMenu->setVisible(layer->m_isPracticeMode && !jasmine::setting::getValue<bool>("hide-menu"));
+    f->m_switchMenu->setPosition({ CCDirector::get()->getWinSize().width / 2.0f, jasmine::setting::getValue<float>("menu-y-offset") });
+    f->m_switchMenu->setVisible(layer->m_isPracticeMode GEODE_DESKTOP(&& !jasmine::setting::getValue<bool>("hide-menu")));
     f->m_switchMenu->setID("switch-menu"_spr);
     addChild(f->m_switchMenu);
 
@@ -45,22 +44,20 @@ bool CSUILayer::init(GJBaseGameLayer* layer) {
     f->m_switchMenu->setOpacity(jasmine::setting::getValue<int>("menu-opacity"));
     f->m_switchMenu->setLayout(AxisLayout::create()->setAutoScale(false)->setGap(10.0f));
 
-    addEventListener(KeybindSettingPressedEventV3(GEODE_MOD_ID, "previous-checkpoint"), [this](
-        const Keybind& keybind, bool down, bool repeat, double timestamp
-    ) {
+    addEventListener(KeybindSettingPressedEventV3(GEODE_MOD_ID, "previous-checkpoint"), [this](const Keybind&, bool down, bool repeat, double) {
         if (down && !repeat) onPrev(nullptr);
     });
 
-    addEventListener(KeybindSettingPressedEventV3(GEODE_MOD_ID, "next-checkpoint"), [this](
-        const Keybind& keybind, bool down, bool repeat, double timestamp
-    ) {
+    addEventListener(KeybindSettingPressedEventV3(GEODE_MOD_ID, "next-checkpoint"), [this](const Keybind&, bool down, bool repeat, double) {
         if (down && !repeat) onNext(nullptr);
     });
 
+    #ifdef GEODE_IS_DESKTOP
     addEventListener(SettingChangedEventV3(GEODE_MOD_ID, "hide-menu"), [this](std::shared_ptr<SettingV3> setting) {
         m_fields->m_switchMenu->setVisible(
             !std::static_pointer_cast<BoolSettingV3>(std::move(setting))->getValue() && m_gameLayer->m_isPracticeMode);
     });
+    #endif
 
     addEventListener(SettingChangedEventV3(GEODE_MOD_ID, "menu-y-offset"), [this](std::shared_ptr<SettingV3> setting) {
         m_fields->m_switchMenu->setPositionY(std::static_pointer_cast<FloatSettingV3>(std::move(setting))->getValue());
@@ -131,17 +128,14 @@ void CSUILayer::updateMenu() {
     auto playLayer = static_cast<PlayLayer*>(m_gameLayer);
     auto f = m_fields.self();
 
-    if (!playLayer->m_isPracticeMode || jasmine::setting::getValue<bool>("hide-menu")) {
-        return f->m_switchMenu->setVisible(false);
-    }
-    else {
+    if (playLayer->m_isPracticeMode && !jasmine::setting::getValue<bool>("hide-menu")) {
         f->m_switchMenu->setVisible(true);
     }
+    else {
+        return f->m_switchMenu->setVisible(false);
+    }
 
-    auto checkpoint = f->m_currentCheckpoint;
-    auto checkpoints = playLayer->m_checkpointArray->count();
-
-    f->m_switchLabel->setString(fmt::format("{}/{}", checkpoint, checkpoints).c_str());
+    f->m_switchLabel->setString(fmt::format("{}/{}", f->m_currentCheckpoint, playLayer->m_checkpointArray->count()).c_str());
     f->m_switchLabel->limitLabelWidth(40.0f, 0.6f, 0.1f);
     f->m_switchMenu->updateLayout();
 }

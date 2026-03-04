@@ -3,7 +3,7 @@ Switch checkpoints without changing them.
 
 ## Features
 - Switch practice mode checkpoints without restarting the level
-- Options to customize the menu's Y position and opacity
+- Options to customize the menu's Y offset, opacity, and (desktop only) visibility
 - Keybinds for switching checkpoints (Default: Shift+Q for previous, Shift+E for next)
 
 ## Credits
